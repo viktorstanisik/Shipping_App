@@ -1,0 +1,93 @@
+<div [hidden]="isDisplayed" class="offer_container">
+  <form
+    class="offer_wrapper"
+    #offerForm="ngForm"
+    autocomplete="off"
+    (ngSubmit)="submitOffer()"
+  >
+    <h3 class="offer-title text-center">Enter Package Dimensions</h3>
+    <hr class="line_offer" />
+    <div class="form-group">
+      <label for="width" class="labels_offer">Enter Width</label>
+      <input
+        type="text"
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        name="width"
+        placeholder="Width"
+        [(ngModel)]="model.packagewidth"
+        pattern="[0-9]?[0-9]?[0-9]?(\.[0-9][0-9]?)?"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="height" class="labels_offer">Enter Height</label>
+      <input
+        type="text"
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        name="height"
+        placeholder="Height"
+        [(ngModel)]="model.packageheight"
+        pattern="[0-9]?[0-9]?[0-9]?(\.[0-9][0-9]?)?"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="length" class="labels_offer">Enter Depth</label>
+      <input
+        type="text"
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        name="depth"
+        placeholder="Depth"
+        pattern="[0-9]?[0-9]?[0-9]?(\.[0-9][0-9]?)?"
+        [(ngModel)]="model.packagedepth"
+        required
+      />
+    </div>
+    <div class="form-group">
+      <label for="weight" class="labels_offer">Enter Weight</label>
+      <input
+        type="text"
+        class="form-control ng-untouched ng-pristine ng-invalid"
+        name="weight"
+        placeholder="Weight"
+        pattern="[0-9]?[0-9]?[0-9]?(\.[0-9][0-9]?)?"
+        [(ngModel)]="model.packageweight"
+        required
+      />
+    </div>
+    <div class="form-group text-center">
+      <button
+        class="btn btn-outline-success"
+        type="submit"
+        [disabled]="offerForm.invalid"
+      >
+        Submit Dimensions
+      </button>
+
+      <div *ngIf="emptyResponse" class="alert alert-danger">
+        <p class="card-text">Currently we don't ship with that dimensions!!</p>
+        <p class="card-text">Please enter other dimension</p>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div [hidden]="!isDisplayed" class="card-container" *ngIf="offers">
+  <div class="card" *ngFor="let item of offers">
+    <div>
+      <h5 class="card-title">Carrier: {{ item.carrierName }}</h5>
+      <h3 class="card-text">Price: {{ item.offerPrice }}</h3>
+    </div>
+    <button
+      [disabled]="isEnabled"
+      class="btn btn-outline-success"
+      type="submit"
+      (click)="saveOrder(item.carrierName, item.offerPrice)"
+    >
+      Submit Offer
+    </button>
+    <button class="btn btn-outline-success" type="button" (click)="cancel()">
+      Back To Calculation
+    </button>
+  </div>
+</div>
